@@ -35,3 +35,7 @@ inline int is_text_segment(const Elf64_Phdr *hdr) {
 inline int is_data_segment(const Elf64_Phdr *hdr) {
 	return (hdr->p_flags & PF_W && hdr->p_flags & PF_R);
 }
+
+inline int is_pt_load(const Elf64_Phdr *hdr) {
+	return (hdr->p_type == PT_LOAD);
+}

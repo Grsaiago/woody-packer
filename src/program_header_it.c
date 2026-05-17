@@ -70,9 +70,9 @@ inline int phdr_it_count(ProgramHeaderIterator *it) { return (it->size); }
  * non-zero. When a match is found, writes it to @value and returns 0.
  * Returns -1 if no match is found.
  */
-int find_first(ProgramHeaderIterator *it,
-			   int (*finder_func)(const Elf64_Phdr *),
-			   Elf64_Phdr *const value) {
+int phdr_it_find_next(ProgramHeaderIterator *it,
+					  int (*finder_func)(const Elf64_Phdr *),
+					  Elf64_Phdr *const value) {
 	phdr_it_restart(it);
 	while (phdr_it_has_next(it)) {
 		phdr_it_next(it, value);
