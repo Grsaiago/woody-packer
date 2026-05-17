@@ -12,11 +12,71 @@
       "-I./include/",
       "-c",
       "-o",
+      "objs/elf.o",
+      "src/elf.c"
+    ],
+    "directory": "/home/gsaiago/estudo/c/woody-packer",
+    "file": "/home/gsaiago/estudo/c/woody-packer/src/elf.c",
+    "output": "/home/gsaiago/estudo/c/woody-packer/objs/elf.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wpedantic",
+      "-fstack-usage",
+      "-std=c99",
+      "-I./include/",
+      "-c",
+      "-o",
+      "objs/file.o",
+      "src/file.c"
+    ],
+    "directory": "/home/gsaiago/estudo/c/woody-packer",
+    "file": "/home/gsaiago/estudo/c/woody-packer/src/file.c",
+    "output": "/home/gsaiago/estudo/c/woody-packer/objs/file.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wpedantic",
+      "-fstack-usage",
+      "-std=c99",
+      "-I./include/",
+      "-c",
+      "-o",
       "objs/main.o",
       "src/main.c"
     ],
     "directory": "/home/gsaiago/estudo/c/woody-packer",
     "file": "/home/gsaiago/estudo/c/woody-packer/src/main.c",
     "output": "/home/gsaiago/estudo/c/woody-packer/objs/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wpedantic",
+      "-fstack-usage",
+      "-std=c99",
+      "-I./include/",
+      "-c",
+      "-o",
+      "objs/program_header_it.o",
+      "src/program_header_it.c"
+    ],
+    "directory": "/home/gsaiago/estudo/c/woody-packer",
+    "file": "/home/gsaiago/estudo/c/woody-packer/src/program_header_it.c",
+    "output": "/home/gsaiago/estudo/c/woody-packer/objs/program_header_it.o"
   }
 ]

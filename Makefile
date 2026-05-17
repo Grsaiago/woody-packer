@@ -5,7 +5,7 @@ INCLUDES = -I./include/
 SRC_DIR = src
 OBJ_DIR = objs
 
-NAME = woody
+NAME = woody_woodpacker
 
 SRCS = $(wildcard $(SRC_DIR)/*.c)
 
@@ -40,3 +40,8 @@ clean: ## Remove build artifacts
 
 .PHONY: re
 re: clean build ## Clean and rebuild everything
+
+
+.PHONY: comp-test
+comp-test: ## Compile the binary to be obfuscated
+	@gcc test.c -o obfuscated
