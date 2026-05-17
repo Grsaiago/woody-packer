@@ -37,6 +37,7 @@
 *.hex
 woody_woodpacker
 woody
+stub.bin
 
 # Debug files
 *.dSYM/
