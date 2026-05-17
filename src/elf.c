@@ -13,6 +13,7 @@ int new_elf_header(char *data, ElfHeader *elf_header) {
 	return (0);
 }
 
-Elf64_Phdr *get_program_header_table(char *data, Elf64_Ehdr *elf_header) {
+inline Elf64_Phdr *get_program_header_table(char	   *data,
+											Elf64_Ehdr *elf_header) {
 	return ((Elf64_Phdr *)(&data[elf_header->e_phoff]));
 }

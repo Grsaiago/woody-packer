@@ -29,12 +29,20 @@ int new_elf_header(char *data, ElfHeader *elf_header);
 
 // ProgramHeaderIterator methods
 ProgramHeaderIterator get_program_header_iterator(ElfHeader *elf);
-int					  phdr_has_next(ProgramHeaderIterator *it);
-int					  phdr_next(ProgramHeaderIterator *it, Elf64_Phdr *value);
-int					  phdr_prev(ProgramHeaderIterator *it, Elf64_Phdr *value);
-void				  phdr_first(ProgramHeaderIterator *it, Elf64_Phdr *value);
-void				  phdr_last(ProgramHeaderIterator *it, Elf64_Phdr *value);
-int phdr_nth(ProgramHeaderIterator *it, Elf64_Phdr *value, unsigned int nth);
-int phdr_count(ProgramHeaderIterator *it);
+void				  phdr_it_restart(ProgramHeaderIterator *it);
+int					  phdr_it_has_next(ProgramHeaderIterator *it);
+int phdr_it_next(ProgramHeaderIterator *it, Elf64_Phdr *value);
+int phdr_it_prev(ProgramHeaderIterator *it, Elf64_Phdr *value);
+int phdr_it_nth(ProgramHeaderIterator *it, Elf64_Phdr *value, unsigned int nth);
+int phdr_it_count(ProgramHeaderIterator *it);
+void phdr_it_first(ProgramHeaderIterator *it, Elf64_Phdr *value);
+void phdr_it_last(ProgramHeaderIterator *it, Elf64_Phdr *value);
+int find_first(ProgramHeaderIterator *it,
+			   int (*finder_func)(const Elf64_Phdr *), Elf64_Phdr *const value);
+
+// ProgramHeader methods
+const char *phdr_get_type_str(Elf64_Phdr *hdr);
+int			is_text_segment(const Elf64_Phdr *hdr);
+int			is_data_segment(const Elf64_Phdr *hdr);
 
 #endif // WOODY_H
