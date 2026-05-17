@@ -1,10 +1,10 @@
 #include "woody.h"
 
 int main(int argc, char *argv[]) {
-	char				*elf_data;
-	ElfHeader			 elf;
-	extern unsigned char stub_bin[];
-	extern unsigned int	 stub_bin_len;
+	char	 *elf_data;
+	ElfHeader elf;
+	// extern unsigned char stub_bin[];
+	extern unsigned int stub_bin_len;
 
 	// size_t	  pagesz = (size_t)sysconf(_SC_PAGESIZE);
 	// uintptr_t start = (uintptr_t)stub_bin & ~(uintptr_t)(pagesz - 1);

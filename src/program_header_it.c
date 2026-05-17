@@ -1,5 +1,4 @@
 #include "woody.h"
-#include <elf.h>
 
 inline ProgramHeaderIterator get_program_header_iterator(ElfHeader *elf) {
 	return (ProgramHeaderIterator){

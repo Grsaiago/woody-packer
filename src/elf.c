@@ -1,6 +1,4 @@
 #include "woody.h"
-#include <elf.h>
-#include <stdint.h>
 
 int new_elf_header(char *data, ElfHeader *elf_header) {
 	if (memcmp(data, ELFMAG, SELFMAG) != 0) {
