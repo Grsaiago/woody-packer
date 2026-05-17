@@ -1,17 +1,20 @@
-NAME = woody_woodpacker
-STUB = stub.bin
-
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror -Wpedantic -fstack-usage -std=c99
+CFLAGS = -g -Wall -Wextra -Werror -fstack-usage -std=c99
+# CFLAGS = -g -Wall -Wextra -Werror -Wpedantic -fstack-usage -std=c99
 INCLUDES = -I./include/
 
 SRC_DIR = src
 OBJ_DIR = objs
-NASM_DIR = $(SRC_DIR)/asm
+INC_DIR = include
+STUB_DIR = $(SRC_DIR)/stub
 
 SRCS = $(wildcard $(SRC_DIR)/*.c)
-STUB_SRC = $(NASM_DIR)/stub.nasm
+STUB_SRC = $(STUB_DIR)/stub.nasm
 OBJS = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
+
+NAME = woody_woodpacker
+STUB = stub.bin
+STUB_HEADER = include/stub.h
 
 .PHONY: all
 all: help
@@ -21,6 +24,9 @@ $(NAME): $(OBJS)
 
 $(STUB): $(STUB_SRC)
 	@nasm -o $(STUB) -f bin $(STUB_SRC)
+
+$(STUB_HEADER): $(STUB)
+	@xxd -i $(STUB) > $(STUB_HEADER)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
@@ -33,7 +39,7 @@ help: ## Show this help message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2}'
 
 .PHONY: build
-build: $(NAME) $(STUB) ## Build the project and the stub (default)
+build: $(NAME) $(STUB) $(STUB_HEADER) ## Build the project and the stub (default)
 
 .PHONY: run
 run: $(NAME) ## Compile and run the my_nm without args

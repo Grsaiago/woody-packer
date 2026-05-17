@@ -1,10 +1,21 @@
 #include "woody.h"
-#include <elf.h>
-#include <stdio.h>
 
 int main(int argc, char *argv[]) {
-	char	 *elf_data;
-	ElfHeader elf;
+	char				*elf_data;
+	ElfHeader			 elf;
+	extern unsigned char stub_bin[];
+	extern unsigned int	 stub_bin_len;
+
+	// size_t	  pagesz = (size_t)sysconf(_SC_PAGESIZE);
+	// uintptr_t start = (uintptr_t)stub_bin & ~(uintptr_t)(pagesz - 1);
+	// size_t	  len = (size_t)((uintptr_t)stub_bin - start) + stub_bin_len;
+	// len = (len + pagesz - 1) & ~(pagesz - 1);
+	// if (mprotect((void *)start, len, PROT_READ | PROT_EXEC) != 0) {
+	// 	perror("mprotect");
+	// 	return (-1);
+	// }
+	// void (*func)(void) = (void (*)(void))stub_bin;
+	// func();
 
 	if (argc != 2) {
 		printf("usage: %s <elf_executable_file>\n", argv[0]);
@@ -22,22 +33,7 @@ int main(int argc, char *argv[]) {
 		return (-1);
 	}
 
-	if (has_valid_code_cave(&elf, 10 /*placeholder*/) != 0) {
+	if (has_valid_code_cave(&elf, stub_bin_len) != 0) {
 		printf("%s: there is no valid code cave on this binary\n", argv[0]);
 	}
-
-	// // find the text segment
-	// phdr_it = get_program_header_iterator(&elf);
-	// if (phdr_it_find_first(&phdr_it, is_text_segment, &phdr) != 0) {
-	// 	printf("The passed elf file doesn't have a text section\n");
-	// 	return (-1);
-	// }
-	// printf("\nProgram header %d:\n"
-	// 	   "  type: %s  flags: 0x%x\n"
-	// 	   "  offset: 0x%llx  vaddr: 0x%llx  paddr: 0x%llx\n"
-	// 	   "  filesz: %llu  memsz: %llu  align: 0x%llx\n",
-	// 	   phdr_it.idx, phdr_get_type_str(&phdr), phdr.p_flags,
-	// 	   (unsigned long long)phdr.p_offset, (unsigned long long)phdr.p_vaddr,
-	// 	   (unsigned long long)phdr.p_paddr, (unsigned long long)phdr.p_filesz,
-	// 	   (unsigned long long)phdr.p_memsz, (unsigned long long)phdr.p_align);
 }

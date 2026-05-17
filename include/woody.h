@@ -1,6 +1,8 @@
 #ifndef WOODY_H
 #define WOODY_H
 
+#include "stub.h"
+
 #include <elf.h>
 #include <errno.h>
 #include <fcntl.h>
