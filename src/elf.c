@@ -33,5 +33,5 @@ int has_valid_code_cave(ElfHeader *elf, size_t stub_size) {
 	}
 	cave_size = (next_to_text.p_offset) - (text.p_offset + text.p_filesz);
 
-	return (cave_size >= stub_size);
+	return (!(cave_size >= stub_size));
 }
