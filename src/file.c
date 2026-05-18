@@ -1,9 +1,9 @@
 #include "woody.h"
 
 char *map_file(const char *filename) {
-	int	  fd;
-	int	  file_size;
-	char *elf_data;
+	int		 fd;
+	long int file_size;
+	char	*elf_data;
 
 	fd = open(filename, O_RDONLY);
 	if (fd == -1) {

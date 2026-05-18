@@ -1,54 +1,21 @@
 [
   {
     "arguments": [
-      "/usr/bin/gcc",
+      "/usr/bin/clang",
       "-g",
       "-Wall",
       "-Wextra",
       "-Werror",
-      "-Wpedantic",
-      "-fstack-usage",
       "-std=c99",
-      "-I./include/",
-      "-c",
-      "-o",
-      "objs/elf.o",
-      "src/elf.c"
-    ],
-    "directory": "/home/gsaiago/estudo/c/woody-packer",
-    "file": "/home/gsaiago/estudo/c/woody-packer/src/elf.c",
-    "output": "/home/gsaiago/estudo/c/woody-packer/objs/elf.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/gcc",
-      "-g",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
       "-Wpedantic",
+      "-Wconversion",
+      "-Wdouble-promotion",
+      "-Wno-unused-parameter",
+      "-Wno-unused-function",
+      "-Wno-sign-conversion",
       "-fstack-usage",
-      "-std=c99",
-      "-I./include/",
-      "-c",
-      "-o",
-      "objs/file.o",
-      "src/file.c"
-    ],
-    "directory": "/home/gsaiago/estudo/c/woody-packer",
-    "file": "/home/gsaiago/estudo/c/woody-packer/src/file.c",
-    "output": "/home/gsaiago/estudo/c/woody-packer/objs/file.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/gcc",
-      "-g",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-Wpedantic",
-      "-fstack-usage",
-      "-std=c99",
+      "-fsanitize=undefined",
+      "-fsanitize-trap",
       "-I./include/",
       "-c",
       "-o",
@@ -61,22 +28,29 @@
   },
   {
     "arguments": [
-      "/usr/bin/gcc",
+      "/usr/bin/clang",
       "-g",
       "-Wall",
       "-Wextra",
       "-Werror",
-      "-Wpedantic",
-      "-fstack-usage",
       "-std=c99",
+      "-Wpedantic",
+      "-Wconversion",
+      "-Wdouble-promotion",
+      "-Wno-unused-parameter",
+      "-Wno-unused-function",
+      "-Wno-sign-conversion",
+      "-fstack-usage",
+      "-fsanitize=undefined",
+      "-fsanitize-trap",
       "-I./include/",
       "-c",
       "-o",
-      "objs/program_header_it.o",
-      "src/program_header_it.c"
+      "objs/file.o",
+      "src/file.c"
     ],
     "directory": "/home/gsaiago/estudo/c/woody-packer",
-    "file": "/home/gsaiago/estudo/c/woody-packer/src/program_header_it.c",
-    "output": "/home/gsaiago/estudo/c/woody-packer/objs/program_header_it.o"
+    "file": "/home/gsaiago/estudo/c/woody-packer/src/file.c",
+    "output": "/home/gsaiago/estudo/c/woody-packer/objs/file.o"
   }
 ]

@@ -1,6 +1,16 @@
-CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror -fstack-usage -std=c99
-# CFLAGS = -g -Wall -Wextra -Werror -Wpedantic -fstack-usage -std=c99
+CC = clang
+CFLAGS =	-g -Wall -Wextra -Werror \
+			-std=c99 \
+			-Wpedantic \
+			-Wconversion \
+			-Wdouble-promotion \
+			-Wno-unused-parameter \
+			-Wno-unused-function \
+			-Wno-sign-conversion \
+			-fstack-usage \
+			-fsanitize=undefined \
+			-fsanitize-trap
+
 INCLUDES = -I./include/
 
 SRC_DIR = src
@@ -12,7 +22,13 @@ STUB_C = $(SRC_DIR)/stub.c
 STUB_SRC = $(STUB_DIR)/stub.nasm
 STUB_BIN = stub.bin
 
-SRCS = $(wildcard $(SRC_DIR)/*.c) $(STUB_C)
+SRCS =	$(SRC_DIR)/main.c \
+		$(SRC_DIR)/file.c \
+		$(SRC_DIR)/elf.c \
+		$(SRC_DIR)/program_header.c \
+		$(SRC_DIR)/program_header_it.c \
+		$(SRC_DIR)/stub.c
+
 OBJS = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
 
 NAME = woody_woodpacker
@@ -20,14 +36,14 @@ NAME = woody_woodpacker
 .PHONY: all
 all: help
 
-$(NAME): $(OBJS) $(STUB_C)
+$(NAME): $(STUB_C) $(OBJS)
 	$(CC) $(OBJS) -o $(NAME)
 
 $(STUB_BIN): $(STUB_SRC)
-	@nasm -o $(STUB_BIN) -f bin $(STUB_SRC)
+	nasm -o $(STUB_BIN) -f bin $(STUB_SRC)
 
 $(STUB_C): $(STUB_BIN)
-	@xxd -i $(STUB_BIN) > $(STUB_C)
+	xxd -i $(STUB_BIN) > $(STUB_C)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
