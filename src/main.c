@@ -1,5 +1,6 @@
 #include "woody.h"
 #include <fcntl.h>
+#include <string.h>
 
 int main(int argc, char *argv[]) {
 	MappedFile			 mapped_file;
@@ -38,11 +39,13 @@ int main(int argc, char *argv[]) {
 	woody_fd = open("woody", O_CREAT | O_TRUNC | O_WRONLY,
 					S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
 	if (woody_fd < 0) {
-		printf("%s: failed to create woody file\n", argv[0]);
+		printf("%s: failed to create woody file; %s\n", argv[0],
+			   strerror(errno));
 		return (-1);
 	}
 	if (write(woody_fd, new_elf.data, new_elf.size) < 0) {
-		printf("%s: failed to write woody file\n", argv[0]);
+		printf("%s: failed to write woody file; %s\n", argv[0],
+			   strerror(errno));
 		return (-1);
 	}
 	return (0);
