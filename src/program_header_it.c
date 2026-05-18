@@ -1,6 +1,6 @@
 #include "woody.h"
 
-inline ProgramHeaderIterator get_program_header_iterator(ElfHeader *elf) {
+inline ProgramHeaderIterator get_program_header_iterator(ElfFile *elf) {
 	return (ProgramHeaderIterator){
 		.idx = -1,
 		.size = elf->header.e_phnum,
