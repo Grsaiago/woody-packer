@@ -27,6 +27,7 @@ SRCS =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/elf.c \
 		$(SRC_DIR)/program_header.c \
 		$(SRC_DIR)/program_header_it.c \
+		$(SRC_DIR)/stub_substitution.c \
 		$(SRC_DIR)/stub.c
 
 OBJS = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))

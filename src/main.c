@@ -1,6 +1,5 @@
 #include "woody.h"
-#include <fcntl.h>
-#include <string.h>
+#include <elf.h>
 
 int main(int argc, char *argv[]) {
 	MappedFile			 mapped_file;
@@ -27,6 +26,13 @@ int main(int argc, char *argv[]) {
 
 	if (has_valid_code_cave(&elf, stub_bin_len) != 0) {
 		printf("%s: there is no valid code cave on this binary\n", argv[0]);
+		return (-1);
+	}
+
+	if (patch_stub_entry(&elf, stub_bin, stub_bin_len) != 0) {
+		printf(
+			"%s: failed to patch the stub with the original elf entrypoint\n",
+			argv[0]);
 		return (-1);
 	}
 

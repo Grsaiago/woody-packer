@@ -9,20 +9,17 @@ _start:
     ; start of routine
     jmp short end_of_data_declaration
 woody_str:
-    db '...WOODY...',10 ; declare it here so the declaration is jmp'ed
+    db '...WOODY...',10
 end_of_data_declaration:
     mov rax, 1
     mov rdi, 1
     lea rsi, [rel woody_str]
     mov rdx, 12
     syscall
-    ; end of routine
     ; restore register values
     pop rdx
     pop rsi
     pop rdi
     pop rax
-
-    ; stub replacement + jmp to original entrypoint
-    mov rax, 0x1234567890
-    jmp rax
+    ; jmp to original entrypoint (relative, works for PIE)
+    jmp near 0x11223344
