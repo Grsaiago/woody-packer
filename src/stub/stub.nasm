@@ -1,16 +1,18 @@
 BITS 64
 
 _start:
+jmp short end_of_data_declaration
+original_text_size:
+db 'grsaiago' ; placeholder for text segment size
+woody_str:
+db '...WOODY...',10
+end_of_data_declaration:
     ; save register values
     push rax
     push rdi
     push rsi
     push rdx
     ; start of routine
-    jmp short end_of_data_declaration
-woody_str:
-    db '...WOODY...',10
-end_of_data_declaration:
     mov rax, 1
     mov rdi, 1
     lea rsi, [rel woody_str]

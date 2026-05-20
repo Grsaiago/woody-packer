@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
 		return (-1);
 	}
 
-	if (patch_stub_entry(&elf, stub_bin, stub_bin_len) != 0) {
+	if (patch_stub_with_new_elf_info(&elf, stub_bin, stub_bin_len) != 0) {
 		printf(
 			"%s: failed to patch the stub with the original elf entrypoint\n",
 			argv[0]);

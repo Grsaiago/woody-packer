@@ -31,7 +31,8 @@ typedef struct {
 } ProgramHeaderIterator;
 
 // stub manipulation
-int patch_stub_entry(ElfFile *elf, unsigned char stub[], unsigned int stub_len);
+int patch_stub_with_new_elf_info(ElfFile *elf, unsigned char stub[],
+								 unsigned int stub_len);
 
 // File manipulation
 int map_file(const char *filename, MappedFile *file);
