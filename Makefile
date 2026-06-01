@@ -17,6 +17,7 @@ SRC_DIR = src
 OBJ_DIR = objs
 INC_DIR = include
 STUB_DIR = $(SRC_DIR)/stub
+ASM_DIR = $(SRC_DIR)/nasm
 
 STUB_C = $(SRC_DIR)/stub.c
 STUB_SRC = $(STUB_DIR)/stub.nasm
@@ -28,9 +29,13 @@ SRCS =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/program_header.c \
 		$(SRC_DIR)/program_header_it.c \
 		$(SRC_DIR)/stub_substitution.c \
+		$(SRC_DIR)/decrypt.c \
 		$(SRC_DIR)/stub.c
 
-OBJS = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
+ASM_C_SRC =	$(ASM_DIR)/encrypt.nasm
+
+OBJS =	$(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
+OBJS +=	$(OBJ_DIR)/encrypt.o
 
 NAME = woody_woodpacker
 
@@ -48,6 +53,9 @@ $(STUB_C): $(STUB_BIN)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+$(OBJ_DIR)/%.o: $(ASM_DIR)/%.nasm | $(OBJ_DIR)
+	nasm -f elf64 $< -o $@
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)

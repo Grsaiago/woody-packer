@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
 		return (-1);
 	}
 
-	if (patch_stub_with_new_elf_info(&elf, stub_bin, stub_bin_len) != 0) {
+	if (patch_stub_with_new_elf_info(&elf, 'a', stub_bin, stub_bin_len) != 0) {
 		printf(
 			"%s: failed to patch the stub with the original elf entrypoint\n",
 			argv[0]);
@@ -54,5 +54,7 @@ int main(int argc, char *argv[]) {
 			   strerror(errno));
 		return (-1);
 	}
+
+	free_elf_file(&elf);
 	return (0);
 }

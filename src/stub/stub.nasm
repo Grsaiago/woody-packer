@@ -4,6 +4,8 @@ _start:
 jmp short end_of_data_declaration
 original_text_size:
 db 'grsaiago' ; placeholder for text segment size
+encryption_key:
+db '0' ; placeholder for key to be used for obfuscation
 woody_str:
 db '...WOODY...',10
 end_of_data_declaration:

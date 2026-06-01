@@ -1,6 +1,4 @@
 #include "woody.h"
-#include <elf.h>
-#include <string.h>
 
 int new_elf_file(MappedFile *file, ElfFile *elf_header) {
 	if (memcmp(file->data, ELFMAG, SELFMAG) != 0) {
@@ -14,6 +12,13 @@ int new_elf_file(MappedFile *file, ElfFile *elf_header) {
 	elf_header->data = file->data;
 	elf_header->size = file->size;
 	return (0);
+}
+
+void free_elf_file(ElfFile *elf) {
+	if (elf->data != NULL) {
+		munmap(elf->data, elf->size);
+		elf->data = NULL;
+	}
 }
 
 inline Elf64_Phdr *get_program_header_table(char	   *data,

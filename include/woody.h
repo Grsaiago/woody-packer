@@ -31,17 +31,18 @@ typedef struct {
 } ProgramHeaderIterator;
 
 // stub manipulation
-int patch_stub_with_new_elf_info(ElfFile *elf, unsigned char stub[],
-								 unsigned int stub_len);
+int patch_stub_with_new_elf_info(ElfFile *elf, uint8_t encryption_key,
+								 unsigned char stub[], unsigned int stub_len);
 
 // File manipulation
 int map_file(const char *filename, MappedFile *file);
 
 // Elf file
-int new_elf_file(MappedFile *file, ElfFile *elf_file);
-int has_valid_code_cave(ElfFile *elf, size_t stub_size);
-int new_elf_with_injected_stub(ElfFile *elf, const unsigned char stub[],
-							   const unsigned int stub_len, ElfFile *new_elf);
+int	 new_elf_file(MappedFile *file, ElfFile *elf_file);
+void free_elf_file(ElfFile *elf_file);
+int	 has_valid_code_cave(ElfFile *elf, size_t stub_size);
+int	 new_elf_with_injected_stub(ElfFile *elf, const unsigned char stub[],
+								const unsigned int stub_len, ElfFile *new_elf);
 
 // ProgramHeaderIterator methods
 ProgramHeaderIterator get_program_header_iterator(ElfFile *elf);
@@ -62,5 +63,9 @@ const char *phdr_get_type_str(Elf64_Phdr *hdr);
 int			is_text_segment(const Elf64_Phdr *hdr);
 int			is_data_segment(const Elf64_Phdr *hdr);
 int			is_pt_load(const Elf64_Phdr *hdr);
+
+// encryp/decrypt
+extern void asm_encrypt(char *src, uint64_t size, uint8_t key);
+void		asm_decrypt(char *src, uint64_t size, uint8_t key);
 
 #endif // WOODY_H
