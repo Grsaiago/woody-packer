@@ -45,7 +45,8 @@ int has_valid_code_cave(ElfFile *elf, size_t stub_size) {
 }
 
 int new_elf_with_injected_stub(ElfFile *elf, const unsigned char stub[],
-							   const unsigned int stub_len, ElfFile *new_elf) {
+							   const unsigned int stub_len,
+							   uint8_t encryption_key, ElfFile *new_elf) {
 	char				 *new_elf_data;
 	Elf64_Phdr			  text_section;
 	ProgramHeaderIterator phdr_it;
@@ -66,6 +67,10 @@ int new_elf_with_injected_stub(ElfFile *elf, const unsigned char stub[],
 	// copy the original elf
 	memcpy(new_elf_data, elf->data, elf->size);
 
+	// encrypt the text section
+	asm_encrypt(new_elf_data + text_section.p_offset, text_section.p_filesz,
+				encryption_key);
+
 	// overwrite the cave with the stub
 	text_section_end = text_section.p_offset + text_section.p_filesz;
 	memcpy(new_elf_data + text_section_end, stub, stub_len);
@@ -78,6 +83,7 @@ int new_elf_with_injected_stub(ElfFile *elf, const unsigned char stub[],
 			phdrs[i].p_filesz == text_section.p_filesz) {
 			phdrs[i].p_filesz += stub_len;
 			phdrs[i].p_memsz += stub_len;
+			phdrs[i].p_flags |= PF_W; // so the stub can write to the file
 			break;
 		}
 	}
@@ -85,8 +91,9 @@ int new_elf_with_injected_stub(ElfFile *elf, const unsigned char stub[],
 	// redirect entrypoint to stub
 	ehdr->e_entry = text_section.p_vaddr + text_section.p_filesz;
 
-	*new_elf = (ElfFile){.data = new_elf_data, .size = elf->size};
-	memcpy(&new_elf->header, new_elf_data, sizeof(Elf64_Ehdr));
+	*new_elf = (ElfFile){.data = new_elf_data,
+						 .size = elf->size,
+						 .header = *(Elf64_Ehdr *)new_elf_data};
 
 	return (0);
 }

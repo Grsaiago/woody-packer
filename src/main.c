@@ -8,6 +8,7 @@ int main(int argc, char *argv[]) {
 	int					 woody_fd;
 	extern unsigned char stub_bin[];
 	extern unsigned int	 stub_bin_len;
+	uint8_t				 encryption_key = 'a';
 
 	if (argc != 2) {
 		printf("usage: %s <elf_executable_file>\n", argv[0]);
@@ -29,15 +30,16 @@ int main(int argc, char *argv[]) {
 		return (-1);
 	}
 
-	if (patch_stub_with_new_elf_info(&elf, 'a', stub_bin, stub_bin_len) != 0) {
+	if (patch_stub_with_new_elf_info(&elf, encryption_key, stub_bin,
+									 stub_bin_len) != 0) {
 		printf(
 			"%s: failed to patch the stub with the original elf entrypoint\n",
 			argv[0]);
 		return (-1);
 	}
 
-	if (new_elf_with_injected_stub(&elf, stub_bin, stub_bin_len, &new_elf) !=
-		0) {
+	if (new_elf_with_injected_stub(&elf, stub_bin, stub_bin_len, encryption_key,
+								   &new_elf) != 0) {
 		printf("%s: failed to create new injected elf file\n", argv[0]);
 		return (-1);
 	}

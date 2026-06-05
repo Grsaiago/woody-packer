@@ -42,7 +42,8 @@ int	 new_elf_file(MappedFile *file, ElfFile *elf_file);
 void free_elf_file(ElfFile *elf_file);
 int	 has_valid_code_cave(ElfFile *elf, size_t stub_size);
 int	 new_elf_with_injected_stub(ElfFile *elf, const unsigned char stub[],
-								const unsigned int stub_len, ElfFile *new_elf);
+								const unsigned int stub_len,
+								uint8_t encryption_key, ElfFile *new_elf);
 
 // ProgramHeaderIterator methods
 ProgramHeaderIterator get_program_header_iterator(ElfFile *elf);

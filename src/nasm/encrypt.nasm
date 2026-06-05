@@ -13,7 +13,6 @@ loop_start:
     inc rax
     jmp loop_start;
 loop_end:
-
 	mov	rsp, rbp ; function epilogue
 	pop	rbp ; function epilogue
 	ret
