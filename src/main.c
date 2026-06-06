@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
 	}
 
 	if (new_elf_file(&mapped_file, &elf) != 0) {
-		printf("%s: error loading the elf header: %s", argv[0],
+		printf("%s: error loading the elf header: %s\n", argv[0],
 			   strerror(errno));
 		return (-1);
 	}

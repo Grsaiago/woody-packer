@@ -1,12 +1,10 @@
 #include "woody.h"
 
+static int mapped_is_valid_elf(MappedFile *file, Elf64_Ehdr *elf_header);
+
 int new_elf_file(MappedFile *file, ElfFile *elf_header) {
-	if (memcmp(file->data, ELFMAG, SELFMAG) != 0) {
-		return (-1);
-	}
-	memcpy(elf_header, file->data, sizeof(Elf64_Ehdr));
-	if (elf_header->header.e_type != ET_EXEC &&
-		elf_header->header.e_type != ET_DYN) {
+	if (mapped_is_valid_elf(file, &elf_header->header) != 0) {
+		errno = EINVAL;
 		return (-1);
 	}
 	elf_header->data = file->data;
@@ -96,4 +94,19 @@ int new_elf_with_injected_stub(ElfFile *elf, const unsigned char stub[],
 						 .header = *(Elf64_Ehdr *)new_elf_data};
 
 	return (0);
+}
+
+// Checks if the mapped file is a valid 64bits elf and, if so, stores the header
+// on [elf_header]
+static int mapped_is_valid_elf(MappedFile *file, Elf64_Ehdr *elf_header) {
+	if (memcmp(file->data, ELFMAG, SELFMAG) != 0) {
+		return (-1);
+	}
+	if (file->data[EI_CLASS] != ELFCLASS64) {
+		return (-1);
+	}
+	memcpy(elf_header, file->data, sizeof(Elf64_Ehdr));
+	if (elf_header->e_type != ET_EXEC || elf_header->e_type != ET_DYN) {
+		return (-1);
+	}
 }
