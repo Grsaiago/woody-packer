@@ -8,7 +8,7 @@ inline ProgramHeaderIterator get_program_header_iterator(ElfFile *elf) {
 }
 
 inline void phdr_it_restart(ProgramHeaderIterator *it) {
-	it->idx = 0;
+	it->idx = -1;
 	return;
 }
 

@@ -26,20 +26,27 @@ inline Elf64_Phdr *get_program_header_table(char	   *data,
 
 int has_valid_code_cave(ElfFile *elf, size_t stub_size) {
 	ProgramHeaderIterator it;
+	Elf64_Phdr			  phdr;
 	Elf64_Phdr			  text;
-	Elf64_Phdr			  next_to_text;
+	Elf64_Phdr			  next_load;
+	int					  found_text = 0;
 	uint64_t			  cave_size;
 
 	it = get_program_header_iterator(elf);
-	if (phdr_it_find_next(&it, is_text_segment, &text) != 0) {
-		return (-1);
+	phdr_it_restart(&it);
+	while (phdr_it_has_next(&it)) {
+		phdr_it_next(&it, &phdr);
+		if (!found_text && is_text_segment(&phdr)) {
+			text = phdr;
+			found_text = 1;
+		} else if (found_text && is_pt_load(&phdr)) {
+			next_load = phdr;
+			cave_size = next_load.p_offset - (text.p_offset + text.p_filesz);
+			return (!(cave_size >= stub_size));
+		}
 	}
-	if (phdr_it_find_next(&it, is_pt_load, &next_to_text) != 0) {
-		return (-1);
-	}
-	cave_size = (next_to_text.p_offset) - (text.p_offset + text.p_filesz);
 
-	return (!(cave_size >= stub_size));
+	return (-1);
 }
 
 int new_elf_with_injected_stub(ElfFile *elf, const unsigned char stub[],
@@ -106,7 +113,8 @@ static int mapped_is_valid_elf(MappedFile *file, Elf64_Ehdr *elf_header) {
 		return (-1);
 	}
 	memcpy(elf_header, file->data, sizeof(Elf64_Ehdr));
-	if (elf_header->e_type != ET_EXEC || elf_header->e_type != ET_DYN) {
+	if (elf_header->e_type != ET_EXEC && elf_header->e_type != ET_DYN) {
 		return (-1);
 	}
+	return (0);
 }
